@@ -4,6 +4,7 @@ from os import system
 from time import sleep
 import sys
 
+
 TICKET_COST = 3.00
 
 THIRD_DEGREE_REWARD = 24.00
@@ -18,6 +19,8 @@ WEEKS_OF_YEAR = 52.177457
 
 
 class User:
+    """class represanting player"""
+
     def __init__(self, name: str = None, age: int = None, numbers: set = None) -> None:
         self.name = name
         self.age = age
@@ -26,6 +29,10 @@ class User:
             self.numbers = {1, 2, 3, 4, 5, 6}
 
     def input_personal_data(self):
+        """input personal data:
+            - name: string
+            - age: int
+        """
         if self.name is None:
             self.name = input("Input your name: ")
 
@@ -42,6 +49,14 @@ class User:
                 break
 
     def input_numbers(self, numbers: set = None):
+        """input user numbers
+
+        Args:
+            numbers (set, optional): user's set of number. Defaults to None.
+
+        Raises:
+            ValueError: input wrong type or numbers out of scope
+        """
         if numbers is not None:
             self.numbers = numbers
 
@@ -102,9 +117,18 @@ class Game:
         return len(self.player.numbers.intersection(drawing_numbers))
 
     def add_to_scores_list(self, winning_degree: int = 0) -> list:
+        """adding simple winning degree to scores list"""
         self.scores[winning_degree] += 1
 
     def play_while(self, winning_degree: int = 6) -> int:
+        """plays while not win declared winning degree
+
+        Args:
+            winning_degree (int, optional): winning degree what you want to win. Defaults to 6.
+
+        Returns:
+            int: number of played games
+        """
         plays = 0
         while self.scores[winning_degree] < 1:
             self.add_to_scores_list(self.check_winning_degree())
@@ -113,23 +137,43 @@ class Game:
         return plays
 
     def calculate_rewards(self) -> float:
+        """calculating rewards
+
+        Returns:
+            float: sum of rewards
+        """
         summary = 0
         for index, score in enumerate(self.scores):
             summary += score * REWARDS[index]
 
         return round(summary, 2)
 
-    def calculate_costs(self) -> int:
+    def calculate_costs(self) -> float:
+        """calculating cost of ticket
+
+        Returns:
+            float: total cost
+        """
         cost = 0
         for score in self.scores:
             cost += score * TICKET_COST
 
         return round(cost, 2)
 
-    def calculate_profit(self) -> int:
+    def calculate_profit(self) -> float:
+        """calculate bilans of played games
+
+        Returns:
+            float: bilans
+        """
         return round(self.calculate_rewards() - self.calculate_costs(), 2)
 
-    def calculate_age(self) -> int:
+    def calculate_age(self) -> float:
+        """calculating age when player
+
+        Returns:
+            float: age in years
+        """
         years = 0
         for score in self.scores:
             years += score / WEEKS_OF_YEAR
@@ -137,6 +181,8 @@ class Game:
         return round(self.player.age + years, 2)
 
     def print_summary(self):
+        """printed summary of game in console
+        """
         print('\n\n' + '-'*10 + '   S U M M A R Y   ' + '-'*10)
         print(f'Plays:\t{sum(self.scores)}')
         print(f'Tickets cost:\t{self.calculate_costs()} PLN')
@@ -150,6 +196,8 @@ class Game:
 
 
 class Application:
+    """class represanting Application
+    """
     MENU = {
         1: 'Show user data',
         2: 'Input user data',
@@ -182,11 +230,12 @@ class Application:
 
     def _get_choice(self) -> int:
         choice = None
+        keys = self.MENU.keys()
 
-        while choice not in self.MENU.items():
+        while choice not in keys:
             try:
                 choice = int(input('Choose option: '))
-                if choice not in self.MENU.items():
+                if choice not in keys:
                     raise ValueError
             except ValueError:
                 print('You input a wrong number')
@@ -253,6 +302,8 @@ class Application:
             print(f'When you win you will be {game.calculate_age()} years old.')
 
     def run(self):
+        """start the app :)
+        """
         self._draw_main_menu()
         self._get_choice()
         self.label = self.MENU[self.choice]

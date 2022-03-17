@@ -1,9 +1,13 @@
+"""Console BlackJack game"""
+
 from random import shuffle
 from os import system
 
 LABEL = 'BlackJack Game'
 
+
 class Card:
+    """Class defining card"""
     def __init__(self, name, value, color) -> None:
         self.name = name
         self.value = value
@@ -17,6 +21,7 @@ class Card:
 
 
 class Deck:
+    """Class defining deck"""
     def __init__(self) -> None:
         self.is_shuffled = False
         self.cards = []
@@ -32,16 +37,19 @@ class Deck:
                 self.cards.append(Card(name, card_value, color))
 
     def shuffle_cards(self) -> None:
+        """Shuffle cards in deck"""
         shuffle(self.cards)
         self.is_shuffled = True
 
 
 class Player:
+    """Class defining player"""
     def __init__(self, deck=None) -> None:
         self.hand = []
         self.deck = deck
 
     def calculate_hand(self) -> int:
+        """Sum value of all cards in player hand"""
         summary = 0
         for card in self.hand:
             summary += card.value
@@ -51,22 +59,35 @@ class Player:
         return summary
 
     def add_next_card(self):
+        """Move card from deck to player hand"""
         self.hand.append(self.deck.cards.pop(-1))
 
     def end_game(self) -> tuple:
+        """End player turn
+
+        Returns:
+            tuple: index 0 - rest of cards in deck, index 1 - player store
+        """
         return (self.deck, self.calculate_hand())
 
 
 class Croupier(Player):
+    """Class defining croupier based on class Player"""
     def __init__(self, deck=None, player_store=None) -> None:
         super().__init__(deck)
         self.player_store = player_store
 
-    def is_winner(self):
+    def is_winner(self) -> bool:
+        """Check do croupier win
+
+        Returns:
+            bool: returns True when croupier has more points than player
+        """
         return self.calculate_hand() > self.player_store
 
 
 class Game:
+    """Class defining game"""
     def __init__(self) -> None:
         deck = Deck()
         deck.shuffle_cards()
@@ -76,6 +97,7 @@ class Game:
 
     @staticmethod
     def _draw_logo():
+        """Clear terminal and display start view"""
         system('clear')
         weight = len(LABEL) + 65
         print('', '-' * weight, '\n |', ' ' * 30, LABEL, ' ' * 29, '|\n',
@@ -96,7 +118,8 @@ class Game:
         while self.player.calculate_hand() < 21:
             self._draw_logo()
             print(
-                f'You have in hand: {self.player.hand} - it\'s {self.player.calculate_hand()} points')
+                f'You have in hand: {self.player.hand}'
+                + f'- it\'s {self.player.calculate_hand()} points')
             choice = input('Do you want to continue playing? [Y/n] ')
             if choice == '' or choice[0].lower() == 'y':
                 self.player.add_next_card()
@@ -105,7 +128,8 @@ class Game:
 
         self._draw_logo()
         print(
-            f'Finnally you have in hand: {self.player.hand} - it\'s {self.player.calculate_hand()} points')
+            f'Finnally you have in hand: {self.player.hand}'
+            + f'- it\'s {self.player.calculate_hand()} points')
 
         if self.player.calculate_hand() > 21:
             print('\n\tYou lose! You have more than 21 points!')
@@ -127,7 +151,8 @@ class Game:
         points = self.croupier.calculate_hand()
 
         print(
-            f'Finnally you have in hand: {self.player.hand} - it\'s {self.player.calculate_hand()} points')
+            f'Finnally you have in hand: {self.player.hand}'
+            + f'- it\'s {self.player.calculate_hand()} points')
         print(f'In hand I have {self.croupier.hand} - it\'s {points} points')
         if points > 21:
             print('\n\tI lose! Congratulations!!')
@@ -135,6 +160,7 @@ class Game:
             print('\n\tI\'m winner!')
 
     def play(self):
+        """Run it to play the game :)"""
         self._start_game()
         self._player_game()
         if self.croupier.player_store < 21:

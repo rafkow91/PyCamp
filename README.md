@@ -16,7 +16,11 @@ App check if your password is strong and was it hacked..
 App send email's reminder
 
 - ### [Module 4 - Chochlik](https://github.com/rafkow91/Chochlik)
-App makes a joke and control mouse :)
+App opens browser and start playing your favorite YouTuber last video.
+
+
+- ### [Module 5 - FileEncryptor](https://github.com/rafkow91/FileEncryptor)
+Encrypt you private files in console app.
 
 ***
 <small>* All of the realisation is my private sollution.</small>

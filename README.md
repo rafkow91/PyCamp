@@ -19,8 +19,17 @@ App send email's reminder
 App opens browser and start playing your favorite YouTuber last video.
 
 
-- ### [Module 5 - FileEncryptor](https://github.com/rafkow91/FileEncryptor)
+- ### [Module 5 - File Encryptor](https://github.com/rafkow91/FileEncryptor)
 Encrypt you private files in console app.
+
+- ### [Module 6 - My Console Mailbox](https://github.com/rafkow91/MyConsoleMailbox)
+Simply console mailbox
+
+- ### [Module 7 - Password Manager](https://github.com/rafkow91/PasswordManager)
+Simply password manager with GUI (created in TKinter) and datebase (SQLite)
+
+- ### [Module 8 - LAN Scanner](https://github.com/rafkow91/LAN_Scanner)
+View what devices are in your network
 
 ***
 <small>* All of the realisation is my private sollution.</small>
